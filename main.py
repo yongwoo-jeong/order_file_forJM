@@ -6,6 +6,7 @@ team_list = []
 
 handed_team = []
 
+not_handed_team = []
 
 file_list = os.listdir()
 # 팀리스트 인자들을 하나씩 파일리스트에 넣어서 비교 대조 한 뒤 출력
@@ -21,22 +22,32 @@ def compare():
         for team in team_list:
                 for file in file_list:
                         if team in file:
-                                handed_team.append({"부서명":team, "파일명":file})
+                                handed_team.append(team)
                         else:
                                 continue
+
+def make_not_haded_team():
+        for team in team_list:
+                if team not in handed_team:
+                        not_handed_team.append({'부서명':team})
                 
 
 def make_csv():
         with open('결과파일.csv', 'w') as csvfile:
-                fieldnames = ['부서명', '파일명']
+                fieldnames = ['부서명']
                 writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
                 writer.writeheader()
-                for a in handed_team:
+                for a in not_handed_team:
                         writer.writerow(a)
 
 get_team_name()
 compare()
+make_not_haded_team()
 make_csv()
+print(team_list)
+print(handed_team)
+print(not_handed_team)
+
 '''
 
 # 여기서 나온 handed_team 는 파일명 -> 엑셀 뒷줄에 활용
